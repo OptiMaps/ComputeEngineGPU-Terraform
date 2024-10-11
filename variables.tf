@@ -43,23 +43,29 @@ variable "project" {
 variable "region" {
     description = "region name"
     type = string
-    default = "me-west1"
+    default = "asia-east1"
 }
 
 variable "zone" {
     description = "zone name"
     type = string
-    default = "me-west1-b"
+    default = "asia-east1-c"
 }
 
 variable "machine_type" {
     description = "gpu machine type"
     type = string
-    default = "n1-standard-1"
+    default = "n1-standard-4"
 }
 
 variable "gpu_type" {
     description = "gpu type"
     type = string
     default = "nvidia-tesla-t4"
+}
+
+variable "username" {
+    description = "my google email id"
+    type = string
+    default = "sangyleegcp1"
 }

@@ -11,3 +11,5 @@ variable "machine_type" {}
 variable "gpu_type" {}
 
 variable "zone" {}
+
+variable "username" {}

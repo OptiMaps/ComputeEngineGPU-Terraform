@@ -26,7 +26,7 @@ resource "google_compute_instance" "gpu_instance" {
 
     metadata = {
         // path to store ssh keys inside the worker
-        ssh-keys = "gcp:${trimspace(file(var.ssh_file))}"
+        ssh-keys = "${var.username}:${trimspace(file(var.ssh_file))}"
         install-nvidia-driver = true
         proxy-mode = "project_editors"
     }
@@ -55,11 +55,11 @@ resource "google_compute_instance" "gpu_instance" {
     provisioner "file" {
         // We use a provisioner to copy our local ssh key inside the worker. This will be used to authenticate with GitHub.
         source = var.ssh_file_private
-        destination = "home/gcp/.ssh/id_ed25519"
+        destination = "/home/${var.username}/.ssh/id_ed25519"
 
         connection {
             type = "ssh"
-            user = "gcp"
+            user = var.username
             port = 22
             private_key = "${file(var.ssh_file_private)}"
             host = google_compute_instance.gpu_instance.network_interface[0].access_config[0].nat_ip
@@ -75,15 +75,24 @@ resource "google_compute_instance" "gpu_instance" {
             # "sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 model-artifact-bucket /home/gcp/gcs-bucket", // mount our bucket
             "sudo /opt/deeplearning/install-driver.sh", // install required GPU drivers
             "sudo apt install -y git",
-            "chmod 400 /home/gcp/.ssh/id_ed25519", // allow git to use our ssh key
+            "chmod 400 /home/${var.username}/.ssh/id_ed25519", // allow git to use our ssh key
             "echo 'Host github.com' >> ~/.ssh/config",
             "echo '    StrictHostKeyChecking no' >> ~/.ssh/config",
             "git clone ${var.git_ssh_url}", // clone our application repository
             "cd ~/${var.git_clone_dir}",
+            "sudo apt remove docker docker-engine docker.io containerd runc", ## - Old Version Remove
+            "sudo apt update && sudo apt upgrade -y", # set up
+            "sudo apt install -y apt-transport-https ca-certificates curl software-properties-common",
+            "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
+            "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+            "sudo apt update",
+            "sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin",
+            "sudo systemctl start docker",
+            "sudo systemctl enable docker"
          ]
          connection {
             type = "ssh"
-            user = "gcp"
+            user = var.username
             port = 22
             private_key = "${file(var.ssh_file_private)}"
             host = google_compute_instance.gpu_instance.network_interface[0].access_config[0].nat_ip

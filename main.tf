@@ -39,6 +39,7 @@ module "training_worker" {
     machine_type = var.machine_type
     gpu_type = var.gpu_type
     zone = var.zone
+    username = var.username
 
     depends_on = [ module.vpc_network ]
 }
