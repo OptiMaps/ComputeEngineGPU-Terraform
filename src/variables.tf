@@ -1,13 +1,13 @@
 variable "ssh_file" {
   description = "ssh public key path"
   type = string
-  default = "./.ssh/id_ed25519.pub"
+  default = "../.ssh/id_ed25519.pub"
 }
 
 variable "ssh_file_private" {
   description = "ssh private key path"
   type = string
-  default = "./.ssh/id_ed25519"
+  default = "../.ssh/id_ed25519"
 }
 
 variable "git_ssh_url" {
@@ -25,7 +25,7 @@ variable "git_clone_dir" {
 variable "credentials_file" {
     description = "credentials file"
     type = string
-    default = "./credentials.json"
+    default = "../credentials.json"
 }
 
 variable "bucket_url" {
