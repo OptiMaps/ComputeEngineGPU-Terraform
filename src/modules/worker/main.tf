@@ -51,11 +51,24 @@ resource "google_compute_instance" "gpu_instance" {
     service_account {
         scopes = [ "https://www.googleapis.com/auth/devstorage.read_write" ]
     }
-
     provisioner "file" {
         // We use a provisioner to copy our local ssh key inside the worker. This will be used to authenticate with GitHub.
         source = var.ssh_file_private
         destination = "/home/${var.username}/.ssh/id_ed25519"
+
+        connection {
+            type = "ssh"
+            user = var.username
+            port = 22
+            private_key = "${file(var.ssh_file_private)}"
+            host = google_compute_instance.gpu_instance.network_interface[0].access_config[0].nat_ip
+        }
+    }
+
+    provisioner "file" {
+        // We use a provisioner to copy our local ssh key inside the worker. This will be used to authenticate with GitHub.
+        source = var.env_file
+        destination = "/home/${var.username}/.env"
 
         connection {
             type = "ssh"
@@ -88,7 +101,8 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo apt update",
             "sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin",
             "sudo systemctl start docker",
-            "sudo systemctl enable docker"
+            "sudo systemctl enable docker",
+            "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_pwd} --password-stdin" # dockerhub login
          ]
          connection {
             type = "ssh"

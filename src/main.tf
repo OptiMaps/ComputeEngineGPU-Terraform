@@ -56,6 +56,9 @@ module "training_worker" {
     gpu_type = var.gpu_type
     zone = var.zone
     username = var.username
+    env_file = var.env_file
+    dockerhub_id = var.dockerhub_id
+    dockerhub_pwd = var.dockerhub_pwd
 
     depends_on = [ module.vpc_network ]
 }

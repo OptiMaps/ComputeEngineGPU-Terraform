@@ -13,3 +13,9 @@ variable "gpu_type" {}
 variable "zone" {}
 
 variable "username" {}
+
+variable "env_file" {}
+
+variable "dockerhub_id" {}
+
+variable "dockerhub_pwd" {}

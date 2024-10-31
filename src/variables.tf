@@ -10,6 +10,12 @@ variable "ssh_file_private" {
   default = "../.ssh/id_ed25519"
 }
 
+variable "env_file" {
+    description = "env file path"
+    type = string
+    default = "../.env"
+}
+
 variable "git_ssh_url" {
     description = "git clone url"
     type = string
@@ -69,3 +75,7 @@ variable "username" {
     type = string
     default = "sangyleegcp1"
 }
+
+variable "dockerhub_id" {}
+
+variable "dockerhub_pwd" {}

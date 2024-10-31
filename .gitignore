@@ -41,3 +41,6 @@ credentials.json
 
 # ssh
 .ssh/
+
+# env
+.env
