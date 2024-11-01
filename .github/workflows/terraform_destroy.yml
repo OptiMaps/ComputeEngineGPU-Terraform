@@ -39,7 +39,8 @@ jobs:
     # Create terraform.prod.tfvars file
     - name: Create terraform.prod.tfvars file
       run: echo "dockerhub_id = ${{ secrets.DOCKERHUB_id }}" >> terraform.prod.tfvars
-      run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
+      
+    - run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials

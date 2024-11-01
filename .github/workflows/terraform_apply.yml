@@ -41,7 +41,7 @@ jobs:
     # Create terraform.prod.tfvars file
     - name: Create terraform.prod.tfvars file
       run: echo "dockerhub_id = ${{ secrets.DOCKERHUB_id }}" >> terraform.prod.tfvars
-      run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
+    - run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials
@@ -50,8 +50,8 @@ jobs:
     # Create github ssh key directory
     - name: Configure github ssh
       run: mkdir .ssh
-      run: echo ${{ secrets.PUBLIC_KEY_GITHUB }} > .ssh/id_ed25519.pub
-      run: echo ${{ secrets.SECRET_KEY_GITHUB }} > .ssh/id_ed25519
+    - run: echo ${{ secrets.PUBLIC_KEY_GITHUB }} > .ssh/id_ed25519.pub
+    - run: echo ${{ secrets.SECRET_KEY_GITHUB }} > .ssh/id_ed25519
 
     # Create GCP instance
     - name: Create GCP Compute Engine
