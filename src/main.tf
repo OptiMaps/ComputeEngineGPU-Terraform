@@ -27,12 +27,11 @@ provider "google" {
 
 provider "aws" {
     region = "ap-northeast-2"
-    profile = "falconlee236"
+    # profile = "falconlee236"
 }
 
 module "vpc_network" {
     source = "./modules/vpc"
-    
     region = var.region
 }
 
