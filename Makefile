@@ -26,11 +26,13 @@ create-compute-engine:
 destroy-s3:
 	@echo ""
 	@echo "$(PURPLE) Terraform s3 destroy $(RESET)"
+	@cd src/s3_init && terraform init
 	@cd src/s3_init && terraform destroy -auto-approve
 
 destroy-compute-engine:
 	@echo ""
 	@echo "$(PURPLE) Terraform compute engine destroy $(RESET)"
+	@cd src && terraform init
 	@cd src && terraform destroy -auto-approve -var-file=$(VAR_FILE)
 
 clean: destroy-compute-engine
