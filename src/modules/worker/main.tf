@@ -83,9 +83,9 @@ resource "google_compute_instance" "gpu_instance" {
         // Here we define some init steps we want to run when our instance is created
         inline = [ 
             "sudo apt update && sudo apt upgrade -y",
-            # "mkdir /home/gcp/gcs-bucket", // create mount path for our bucket
-            # "sudo chown gcp: /home/gcp/gcs-bucket",
-            # "sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 model-artifact-bucket /home/gcp/gcs-bucket", // mount our bucket
+            "mkdir /home/${var.username}/gcs-bucket", // create mount path for our bucket
+            "sudo chown ${var.username}: /home/${var.username}/gcs-bucket",
+            "sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 rl-artifact-bucket /home/${var.username}/gcs-bucket", // mount our bucket
             "sudo /opt/deeplearning/install-driver.sh", // install required GPU drivers
             "sudo apt install -y git",
             "chmod 400 /home/${var.username}/.ssh/id_ed25519", // allow git to use our ssh key
@@ -116,9 +116,9 @@ resource "google_compute_instance" "gpu_instance" {
 
 /*
 단계
-1. 121 cuda 버전 성공
-2. github action destory 성공
-3. gcp cloud storage bucket 생성 + 마운트 성공
+1. 121 cuda 버전 성공 (o)
+2. github action destory 성공 (x)
+3. gcp cloud storage bucket 생성 + 마운트 성공 (o)
 4. docker image container volume 수정하는거 성공
 5. dockerimage 12.1 버전으로 빌드, push + tag
 6. dockerimage 11.7 버전으로 빌드, push + tag

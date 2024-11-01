@@ -36,20 +36,20 @@ module "vpc_network" {
     region = var.region
 }
 
-# resource "google_storage_bucket" "artifact_bucket" {
-#     name = "model-artifact-bucket"
-#     location = "US"
-#     force_destroy = true
+resource "google_storage_bucket" "artifact_bucket" {
+    # bucket name must be globally unique with all users
+    name = "rl-artifact-bucket"
+    location = var.region
+    force_destroy = true
 
-#     uniform_bucket_level_access = true
-# }
+    uniform_bucket_level_access = true
+}
 
 module "training_worker" {
     source = "./modules/worker"
 
     ssh_file = var.ssh_file
     ssh_file_private = var.ssh_file_private
-    # bucket_url = var.bucket_url
     git_ssh_url = var.git_ssh_url
     git_clone_dir = var.git_clone_dir
     machine_type = var.machine_type

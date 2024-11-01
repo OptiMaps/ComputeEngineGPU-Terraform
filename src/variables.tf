@@ -34,12 +34,6 @@ variable "credentials_file" {
     default = "../credentials.json"
 }
 
-variable "bucket_url" {
-    description = "bucket url"
-    type = string
-    default = ""
-}
-
 variable "project" {
     description = "project name"
     type = string

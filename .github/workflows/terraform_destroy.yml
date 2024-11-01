@@ -39,14 +39,23 @@ jobs:
 
     # Create terraform.prod.tfvars file
     - name: Create terraform.prod.tfvars file
-      run: echo "dockerhub_id = ${{ secrets.DOCKERHUB_id }}" >> terraform.prod.tfvars
-
-    - run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
+      run: |-
+        cat > terraform.prod.tfvars <<EOF
+        dockerhub_id="${{ secrets.DOCKERHUB_id }}"
+        dockerhub_pwd ="${{ secrets.DOCKERHUB_pwd }}"
+        EOF
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials
       run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}" > credentials.json
 
+    - name: Terraform init
+      run: cd src && terraform init
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }} 
+
     # destroy GCP instance
-    - name: Create GCP Compute Engine
+    - name: destory GCP Compute Engine
       run: make clean
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }} 
