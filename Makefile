@@ -3,7 +3,7 @@ GREEN = $(shell tput -Txterm setab 2 && tput -Txterm setaf 0)
 PURPLE = $(shell tput -Txterm setab 5 && tput -Txterm setaf 7)
 RESET = $(shell tput -Txterm sgr0)
 
-VAR_FILE = terraform.prod.tfvars
+VAR_FILE = ../terraform.prod.tfvars
 
 all: create
 
@@ -31,7 +31,7 @@ destroy-s3:
 destroy-compute-engine:
 	@echo ""
 	@echo "$(PURPLE) Terraform compute engine destroy $(RESET)"
-	@cd src && terraform destroy -auto-approve
+	@cd src && terraform destroy -auto-approve -var-file=$(VAR_FILE)
 
 clean: destroy-compute-engine
 

@@ -15,7 +15,7 @@ terraform apply
 ```bash
 cd ..
 ```
-4. instance를 생성한다.
+4. instance를 생성한다. -> 1, 3시 테스트 성공
 ```bash
 terraform init
 terraform plan

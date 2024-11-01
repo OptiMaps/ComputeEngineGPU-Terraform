@@ -1,0 +1,58 @@
+name: 'Terraform apply'
+
+on:
+  schedule:
+    - cron: "0 0 4 * * 1-5 *" # UTC standard -> KRT = UTC + 9, KRT 13:00 = 04:00 + 9
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-apply:
+    name: 'Terraform apply'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Install the latest version of Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    # Configure AWS credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    # Create .env file
+    - name: Create .env file
+      run: echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" > .env
+
+    # Create terraform.prod.tfvars file
+    - name: Create terraform.prod.tfvars file
+      run: echo "dockerhub_id = ${{ secrets.DOCKERHUB_id }}" >> terraform.prod.tfvars
+      run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
+
+    # Create google cloud service account credential.json file
+    - name: Configure GCP service account credentials
+      run: echo ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }} > credentials.json
+
+    # Create github ssh key directory
+    - name: Configure github ssh
+      run: mkdir .ssh
+      run: echo ${{ secrets.PUBLIC_KEY_GITHUB }} > .ssh/id_ed25519.pub
+      run: echo ${{ secrets.SECRET_KEY_GITHUB }} > .ssh/id_ed25519
+
+    # Create GCP instance
+    - name: Create GCP Compute Engine
+      run: make

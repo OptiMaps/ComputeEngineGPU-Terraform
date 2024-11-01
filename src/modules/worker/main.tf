@@ -11,8 +11,8 @@ resource "google_compute_instance" "gpu_instance" {
 
     boot_disk {
         initialize_params {
-            // pytorch image that works with cuda 11.3
-            image = "deeplearning-platform-release/pytorch-latest-cu113"
+            // pytorch image that works with cuda 12.1
+            image = "deeplearning-platform-release/pytorch-latest-cu121"
             type = "pd-ssd"
             size = 150
         }
@@ -102,7 +102,7 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin",
             "sudo systemctl start docker",
             "sudo systemctl enable docker",
-            "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_pwd} --password-stdin" # dockerhub login
+            "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin" # dockerhub login
          ]
          connection {
             type = "ssh"
@@ -113,3 +113,14 @@ resource "google_compute_instance" "gpu_instance" {
          }
     }
 }
+
+/*
+단계
+1. 121 cuda 버전 성공
+2. github action destory 성공
+3. gcp cloud storage bucket 생성 + 마운트 성공
+4. docker image container volume 수정하는거 성공
+5. dockerimage 12.1 버전으로 빌드, push + tag
+6. dockerimage 11.7 버전으로 빌드, push + tag
+7. github action apply 성공
+*/
