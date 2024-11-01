@@ -2,7 +2,7 @@ name: 'Terraform apply'
 
 on:
   schedule:
-    - cron: "0 0 4 * * 1-5 *" # UTC standard -> KRT = UTC + 9, KRT 13:00 = 04:00 + 9
+    - cron: "0 4 * * 1-5" # UTC standard -> KRT = UTC + 9, KRT 13:00 = 04:00 + 9
 
 permissions:
   contents: read
