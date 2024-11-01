@@ -35,11 +35,12 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
 
     # Create terraform.prod.tfvars file
     - name: Create terraform.prod.tfvars file
       run: echo "dockerhub_id = ${{ secrets.DOCKERHUB_id }}" >> terraform.prod.tfvars
-      
+
     - run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
 
     # Create google cloud service account credential.json file
