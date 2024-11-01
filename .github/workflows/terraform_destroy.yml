@@ -45,7 +45,7 @@ jobs:
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials
-      run: echo ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }} > credentials.json
+      run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}" > credentials.json
 
     # destroy GCP instance
     - name: Create GCP Compute Engine
