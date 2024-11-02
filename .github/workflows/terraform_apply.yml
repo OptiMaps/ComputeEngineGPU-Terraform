@@ -1,6 +1,8 @@
 name: 'Terraform apply'
 
 on:
+  push:
+    branches: [ "main" ]
   schedule:
     - cron: "0 4 * * 1-5" # UTC standard -> KRT = UTC + 9, KRT 13:00 = 04:00 + 9
 
@@ -25,15 +27,13 @@ jobs:
 
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v3
 
     # Configure AWS credentials
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-2
+      run: |-
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile falconlee236
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile falconlee236
 
     # Create .env file
     - name: Create .env file
@@ -41,8 +41,11 @@ jobs:
 
     # Create terraform.prod.tfvars file
     - name: Create terraform.prod.tfvars file
-      run: echo "dockerhub_id = ${{ secrets.DOCKERHUB_id }}" >> terraform.prod.tfvars
-    - run: echo "dockerhub_pwd = ${{ secrets.DOCKERHUB_pwd }}" >> terraform.prod.tfvars
+      run: |-
+        cat > terraform.prod.tfvars <<EOF
+        dockerhub_id="${{ secrets.DOCKERHUB_id }}"
+        dockerhub_pwd ="${{ secrets.DOCKERHUB_pwd }}"
+        EOF
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials
@@ -50,9 +53,10 @@ jobs:
 
     # Create github ssh key directory
     - name: Configure github ssh
-      run: mkdir .ssh
-    - run: echo "${{ secrets.PUBLIC_KEY_GITHUB }}" > .ssh/id_ed25519.pub
-    - run: echo "${{ secrets.SECRET_KEY_GITHUB }}" > .ssh/id_ed25519
+      run: |-
+        mkdir .ssh
+        echo "${{ secrets.PUBLIC_KEY_GITHUB }}" > .ssh/id_ed25519.pub
+        echo "${{ secrets.SECRET_KEY_GITHUB }}" > .ssh/id_ed25519
 
     # Create GCP instance
     - name: Create GCP Compute Engine
