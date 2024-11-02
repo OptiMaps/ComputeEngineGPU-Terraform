@@ -52,6 +52,13 @@ jobs:
           name: "credentials.json"
           json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}
 
+    # Create github ssh key directory
+    - name: Configure github ssh
+      run: |-
+        mkdir .ssh
+        echo "${{ secrets.PUBLIC_KEY_GITHUB }}" > .ssh/id_ed25519.pub
+        echo "${{ secrets.SECRET_KEY_GITHUB }}" > .ssh/id_ed25519
+
     # destroy GCP instance
     - name: destory GCP Compute Engine
       run: make clean
