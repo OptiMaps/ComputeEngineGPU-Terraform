@@ -27,7 +27,7 @@ jobs:
 
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v3
 
     # Configure AWS credentials
     - name: Configure AWS credentials
