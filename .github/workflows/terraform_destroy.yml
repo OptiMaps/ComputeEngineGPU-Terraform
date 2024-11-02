@@ -1,6 +1,8 @@
 name: 'Terraform destroy'
 
 on:
+  push:
+    branches: [ "main" ]
   schedule:
     - cron: "0 15 * * 1-5" # UTC standard -> KRT = UTC + 9, KRT 13:00 = 04:00 + 9
 
@@ -44,7 +46,11 @@ jobs:
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials
-      run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}" > credentials.json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+          name: "credentials.json"
+          json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}
 
     # destroy GCP instance
     - name: destory GCP Compute Engine
