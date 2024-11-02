@@ -34,10 +34,6 @@ jobs:
       run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile falconlee236
     - run: aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile falconlee236
 
-      # env:
-      #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #   AWS_DEFAULT_REGION: ap-northeast-2
 
     # Create terraform.prod.tfvars file
     - name: Create terraform.prod.tfvars file
@@ -53,11 +49,7 @@ jobs:
 
     - name: Terraform init
       run: cd src && terraform init
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }} 
 
     # destroy GCP instance
     - name: destory GCP Compute Engine
       run: make clean
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }} 
