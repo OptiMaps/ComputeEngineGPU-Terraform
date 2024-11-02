@@ -49,7 +49,11 @@ jobs:
 
     # Create google cloud service account credential.json file
     - name: Configure GCP service account credentials
-      run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}" > credentials.json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+          name: "credentials.json"
+          json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON_VALUE }}
 
     # Create github ssh key directory
     - name: Configure github ssh
