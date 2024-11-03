@@ -102,7 +102,8 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin",
             "sudo systemctl start docker",
             "sudo systemctl enable docker",
-            "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin" # dockerhub login
+            "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin", # dockerhub login
+            "docker pull falconlee236/rl-image:graph-mamba" # pull train docker iamge
          ]
          connection {
             type = "ssh"
