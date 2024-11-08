@@ -12,7 +12,7 @@ resource "google_compute_instance" "gpu_instance" {
     boot_disk {
         initialize_params {
             // cuda image that works with cuda 11.8
-            image = "deeplearning-platform-release/common-cu118"
+            image = "deeplearning-platform-release/pytorch-latest-cu118"
             type = "pd-ssd"
             size = 150
         }
