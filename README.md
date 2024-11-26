@@ -1,23 +1,26 @@
 # ComputeEngineGPU-Terraform
 
 ## 사용방법
-1. `src/s3_init` 디렉토리로 이동한다.
+### 처음 사용하는 경우
 ```bash
-cd src/s3_init
+make init
 ```
-2. tfstate를 원격으로 관리할 s3와 dynamoDB를 생성한다.
+### 나중에 사용하는 경우
 ```bash
-terraform init
-terraform plan
-terraform apply
+make
 ```
-3. `src` 디렉토리로 이동한다.
+### gcp 인스턴스만 삭제하고 싶은 경우
 ```bash
-cd ..
+make clean
 ```
-4. instance를 생성한다. -> 1, 3시 테스트 성공, 4시 테스트 성공
+
+### aws s3까지 삭제하고 싶은 경우 (완전 초기화)
 ```bash
-terraform init
-terraform plan
-terraform apply
+make fclean
+```
+
+### 꿀팁
+사용가능한 딥러닝 이미지를 보고 싶은 경우
+```bash
+gcloud compute images list --project deeplearning-platform-release | grep cu123
 ```

@@ -11,8 +11,8 @@ resource "google_compute_instance" "gpu_instance" {
 
     boot_disk {
         initialize_params {
-            // cuda image that works with cuda 11.8
-            image = "deeplearning-platform-release/pytorch-latest-cu118"
+            // cuda image that works with cuda 12.3
+            image = "deeplearning-platform-release/common-cu123-notebooks-ubuntu-2204"
             type = "pd-ssd"
             size = 150
         }
@@ -103,7 +103,11 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo systemctl start docker",
             "sudo systemctl enable docker",
             "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin", # dockerhub login
-            "docker pull falconlee236/rl-image:graph-mamba" # pull train docker iamge
+            "docker pull falconlee236/rl-image:parco-cuda123", # pull train docker iamge
+            "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0", 
+            "sudo apt-add-repository https://cli.github.com/packages", 
+            "sudo apt update", 
+            "sudo apt install gh", # github cli install
          ]
          connection {
             type = "ssh"
@@ -114,14 +118,3 @@ resource "google_compute_instance" "gpu_instance" {
          }
     }
 }
-
-/*
-단계
-1. 121 cuda 버전 성공 (o)
-2. github action destory 성공 (x)
-3. gcp cloud storage bucket 생성 + 마운트 성공 (o)
-4. docker image container volume 수정하는거 성공
-5. dockerimage 12.1 버전으로 빌드, push + tag
-6. dockerimage 11.7 버전으로 빌드, push + tag
-7. github action apply 성공
-*/
