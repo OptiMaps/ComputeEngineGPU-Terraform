@@ -43,19 +43,21 @@ variable "project" {
 variable "region" {
     description = "region name"
     type = string
-    default = "asia-east1"
+    default = "asia-east2"
 }
 
 variable "zone" {
     description = "zone name"
     type = string
-    default = "asia-east1-c"
+    default = "asia-east2-a" // a c
 }
+
+// 되는거 asia-east2-a + n1-standard-2, asia-east1-c + n1-standard-4
 
 variable "machine_type" {
     description = "gpu machine type"
     type = string
-    default = "n1-standard-4"
+    default = "n1-standard-2"
 }
 
 variable "gpu_type" {

@@ -59,5 +59,5 @@ module "training_worker" {
     dockerhub_id = var.dockerhub_id
     dockerhub_pwd = var.dockerhub_pwd
 
-    depends_on = [ module.vpc_network ]
+    depends_on = [ module.vpc_network, google_storage_bucket.artifact_bucket ]
 }
