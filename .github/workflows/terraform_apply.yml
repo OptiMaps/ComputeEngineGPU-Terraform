@@ -63,7 +63,13 @@ jobs:
     # Create GCP instance
     - name: Create GCP Compute Engine
       run: make
-
+    
+    # sleep if failed
+    - name: Sleep for 10s
+      if: failure()
+      uses: juliangruber/sleep-action@v2.0.0
+      with:
+        time: 20s
     # destory instance if failed
     - name: Destroy GCP Computed Engine if failed
       if: failure()
