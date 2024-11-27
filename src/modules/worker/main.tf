@@ -11,8 +11,8 @@ resource "google_compute_instance" "gpu_instance" {
 
     boot_disk {
         initialize_params {
-            // cuda image that works with cuda 12.3
-            image = "deeplearning-platform-release/common-cu123-notebooks-ubuntu-2204"
+            // cuda image that works with cuda 12.4 + docker를 debain으로 설치하기 때문에 ubuntu로는 설치 못함
+            image = "deeplearning-platform-release/pytorch-latest-cu124"
             type = "pd-ssd"
             size = 150
         }
@@ -104,10 +104,13 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo systemctl enable docker",
             "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin", # dockerhub login
             "docker pull falconlee236/rl-image:parco-cuda123", # pull train docker iamge
-            "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0", 
-            "sudo apt-add-repository https://cli.github.com/packages", 
-            "sudo apt update", 
-            "sudo apt install gh", # github cli install
+            "(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y))", # install github gh
+	        "sudo mkdir -p -m 755 /etc/apt/keyrings",
+	        "wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null",
+	        "sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg",
+	        "echo 'deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main' | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null",
+	        "sudo apt update",
+	        "sudo apt install gh -y",
          ]
          connection {
             type = "ssh"
