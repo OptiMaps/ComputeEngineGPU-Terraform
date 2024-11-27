@@ -104,13 +104,6 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo systemctl enable docker",
             "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin", # dockerhub login
             "docker pull falconlee236/rl-image:parco-cuda123", # pull train docker iamge
-            "(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y))", # install github gh
-	        "sudo mkdir -p -m 755 /etc/apt/keyrings",
-	        "wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null",
-	        "sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg",
-	        "echo 'deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main' | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null",
-	        "sudo apt update",
-	        "sudo apt install gh -y",
          ]
          connection {
             type = "ssh"
