@@ -63,3 +63,8 @@ jobs:
     # Create GCP instance
     - name: Create GCP Compute Engine
       run: make
+
+    # destory instance if failed
+    - name: Destroy GCP Computed Engine if failed
+      if: failure()
+      run: make clean
