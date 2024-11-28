@@ -103,7 +103,8 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo systemctl start docker",
             "sudo systemctl enable docker",
             "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin", # dockerhub login
-            "docker pull falconlee236/rl-image:parco-cuda123", # pull train docker iamge
+            "docker pull falconlee236/rl-image:parco-cuda123", # pull train docker image,
+            "git clone https://github.com/OptiMaps/TrainRepo", # 새로 추가한 부분, 문제 있으면 이거 지우기
          ]
          connection {
             type = "ssh"
