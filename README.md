@@ -1,9 +1,9 @@
-# ComputeEngineGPU-Terraform
+# 🖥️ ComputeEngineGPU-Terraform
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 
 Create google cloud GPU server with Terraform
 
-## Overview
+## 📝 Overview
 If you are running this script, you will get this cloud resource
 * AWS S3
 * AWS DynamoDB
@@ -11,10 +11,10 @@ If you are running this script, you will get this cloud resource
 * GCP Compute Engine with n1-standard-8 and nvidia-tesla-T4 GPU (this could be changed)
 * GCP Cloud Storage
 
-## Architecture
+## 🏗️ Architecture
 ![Group 71](https://github.com/user-attachments/assets/83cd3ae4-7a9a-4ce5-933d-164cc4a45118)
 
-## Prerequisites
+## ⚙️ Prerequisites
 ```
 - Terraform >= 1.10
 - AWS CLI configured
@@ -23,7 +23,7 @@ If you are running this script, you will get this cloud resource
 - Dockerhub configured
 ```
 
-## Repository Structure
+## 📂 Repository Structure
 ```
 .
 ├── create_server_with_dynamic_zones.sh
@@ -51,9 +51,9 @@ If you are running this script, you will get this cloud resource
     └── variables.tf
 ```
 
-## Module Documentation
+## 📦 Module Documentation
 
-### Networking Module
+### 🌐 Networking Module
 
 This module establishes the core VPC infrastructure in Google Cloud Platform (GCP).
 
@@ -105,7 +105,7 @@ module "vpc" {
 > - Can be extended with additional subnets as needed
 > - MTU 1460 is optimized for GCP's network virtualization
 
-### Compute Module
+### 🖥️ Compute Module
 
 This module provisions a GPU-enabled compute instance in Google Cloud Platform (GCP) configured for deep learning workloads.
 
@@ -180,47 +180,10 @@ module "worker" {
 > - Review security configurations before deploying to production
 
 
-## Usage
+## 🚀 How to Use?
+For detailed usage instructions, please refer to the [USAGE.md](USAGE.md) file.
 
-### Initialize Terraform
-```bash
-terraform init
-```
-
-### Deploy to Development
-```bash
-# Switch to dev workspace
-terraform workspace select dev
-
-# Plan changes
-terraform plan -var-file="environments/dev/terraform.tfvars"
-
-# Apply changes
-terraform apply -var-file="environments/dev/terraform.tfvars"
-```
-
-## Variables
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| ssh_file | SSH public key path | string | "../.ssh/id_ed25519.pub" | yes |
-| ssh_file_private | SSH private key path | string | "../.ssh/id_ed25519" | yes |
-| env_file | Environment file path | string | "../.env" | yes |
-| git_ssh_url | Git clone URL | string | "https://github.com/OptiMaps/TrainRepo" | yes |
-| git_clone_dir | Directory path for cloned repository | string | "TrainRepo" | yes |
-| credentials_file | GCP credentials file path | string | "../credentials.json" | yes |
-| project | GCP project name | string | "optimap-438115" | yes |
-| region | GCP region name | string | "asia-east1" | yes |
-| zone | GCP zone name | string | "asia-east1-c" | yes |
-| machine_type | GCP machine type | string | "n1-standard-8" | yes |
-| gpu_type | GPU type | string | "nvidia-tesla-t4" | yes |
-| username | Google email ID | string | "sangyleegcp1" | yes |
-| dockerhub_id | Docker Hub username | string | n/a | yes |
-| dockerhub_pwd | Docker Hub password | string | n/a | yes |
-
-> [!WARNING]
-> The `dockerhub_id` and `dockerhub_pwd` variables have no default values and must be provided when applying the Terraform configuration.
-
-## State Management
+## 🔒 State Management
 
 This module sets up the backend infrastructure required for Terraform state management using AWS S3 and DynamoDB.
 
@@ -263,63 +226,9 @@ terraform {
 > - S3 versioning helps maintain state file history and enables recovery if needed
 
 
-## Security
-- Information about security groups
-- Network access controls
-- Key management
-- Sensitive data handling
-
-## Best Practices
-- Naming conventions
-- Tagging strategy
-- Resource organization
-- Cost optimization recommendations
-
-## Contributing
-Guidelines for contributing to the infrastructure code:
-1. Branch naming conventions
-2. Commit message format
-3. Pull request process
-4. Code review requirements
-
-## Operational Notes
-- Backup procedures
-- Monitoring setup
-- Alerting configuration
-- Disaster recovery procedures
-
-## Support
+## 🤝 Support
 Contact information for infrastructure team or maintainers (@falconlee236)
 Or Feel Free to send email to me (`falconlee236@gmail.com`)
-
----
-
-Tips for maintaining this README:
-1. Keep it updated with each infrastructure change
-2. Include any relevant compliance requirements
-3. Document known limitations
-4. Add troubleshooting guides for common issues
-5. Update version dependencies regularly
-
-
-## 사용방법
-### 처음 사용하는 경우
-```bash
-make init
-```
-### 나중에 사용하는 경우
-```bash
-make
-```
-### gcp 인스턴스만 삭제하고 싶은 경우
-```bash
-make clean
-```
-
-### aws s3까지 삭제하고 싶은 경우 (완전 초기화)
-```bash
-make fclean
-```
 
 <!--
 > [!NOTE]  
