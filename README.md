@@ -32,6 +32,9 @@ If you are running this script, you will get this cloud resource
 ├── Makefile
 ├── README.md
 ├── .env
+├── .ssh
+|   ├── id_ed25519
+|   └── id_ed25519.pub
 └── src
     ├── main.tf
     ├── modules
