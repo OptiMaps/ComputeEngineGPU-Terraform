@@ -118,7 +118,7 @@ This module provisions a GPU-enabled compute instance in Google Cloud Platform (
   - Machine type: Configurable via variable
   - GPU: 1x NVIDIA T4 (configurable via `gpu_type` variable)
   - Boot disk: 150GB SSD
-  - Image: PyTorch with CUDA 12.4 support (`deeplearning-platform-release/pytorch-latest-cu124`)
+  - [Image](https://cloud.google.com/deep-learning-vm/docs/images?hl=en): PyTorch with CUDA 12.4 support (`deeplearning-platform-release/pytorch-latest-cu124`)
 
 #### Network Configuration
 - Connected to custom VPC: `rl-vpc-network`
