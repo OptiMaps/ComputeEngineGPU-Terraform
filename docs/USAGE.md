@@ -131,6 +131,6 @@ change this line's filter name, you can change option
 ```bash
 done < <(comm -12 <(gcloud compute machine-types list --filter="name=[your machine type]" | grep asia | awk '{print $2}' | sort | uniq) <(gcloud compute accelerator-types list --filter="name=[your gpu type]" | grep asia | awk '{print $2}' | sort | uniq))
 ```
-For more information, please visit [Dynamic GPU Provisioning Script for Terraform](SCRIPT.md).
+For more information, please visit [Dynamic GPU Provisioning Script for Terraform](SCRIPT_INFO.md).
 
 
