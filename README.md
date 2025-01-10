@@ -184,7 +184,7 @@ module "worker" {
 
 
 ## 🚀 How to Use?
-For detailed usage instructions, please refer to the [USAGE.md](USAGE.md) file.
+For detailed usage instructions, please refer to the [USAGE.md](docs/USAGE.md) file.
 
 ## 🔒 State Management
 
