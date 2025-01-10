@@ -1,4 +1,6 @@
 # ComputeEngineGPU-Terraform
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
+
 Create google cloud GPU server with Terraform
 
 ## Overview
@@ -48,48 +50,6 @@ If you are running this script, you will get this cloud resource
     ├── terraform.tfstate.backup
     └── variables.tf
 ```
-
-## State Management Infrastructure
-
-This module sets up the backend infrastructure required for Terraform state management using AWS S3 and DynamoDB.
-
-#### Resources Created:
-
-**S3 Bucket (`aws_s3_bucket`):**
-- Bucket name: `sangylee-s3-bucket-tfstate`
-- Purpose: Stores Terraform state files
-- Configuration:
-  - Force destroy enabled for easier cleanup
-  - Versioning enabled to maintain state history
-
-**DynamoDB Table (`aws_dynamodb_table`):**
-- Table name: `terraform-tfstate-lock`
-- Purpose: Provides state locking mechanism to prevent concurrent modifications
-- Configuration:
-  - Partition key: `LockID` (String)
-  - Read capacity: 2 units
-  - Write capacity: 2 units
-
-#### Usage
-
-To use this state backend in other Terraform configurations, add the following backend configuration:
-
-```hcl
-terraform {
-  backend "s3" {
-    bucket         = "sangylee-s3-bucket-tfstate"
-    key            = "terraform.tfstate"
-    region         = "your-region"
-    dynamodb_table = "terraform-tfstate-lock"
-    encrypt        = true
-  }
-}
-```
-
-#### Notes
-- Ensure proper IAM permissions are configured for access to both S3 and DynamoDB
-- The DynamoDB table uses provisioned capacity mode with minimal read/write units
-- S3 versioning helps maintain state file history and enables recovery if needed
 
 ## Module Documentation
 
@@ -261,18 +221,47 @@ terraform apply -var-file="environments/dev/terraform.tfvars"
 > The `dockerhub_id` and `dockerhub_pwd` variables have no default values and must be provided when applying the Terraform configuration.
 
 ## State Management
-Description of how Terraform state is managed (e.g., S3 backend, Terraform Cloud)
+
+This module sets up the backend infrastructure required for Terraform state management using AWS S3 and DynamoDB.
+
+#### Resources Created:
+
+**S3 Bucket (`aws_s3_bucket`):**
+- Bucket name: `sangylee-s3-bucket-tfstate`
+- Purpose: Stores Terraform state files
+- Configuration:
+  - Force destroy enabled for easier cleanup
+  - Versioning enabled to maintain state history
+
+**DynamoDB Table (`aws_dynamodb_table`):**
+- Table name: `terraform-tfstate-lock`
+- Purpose: Provides state locking mechanism to prevent concurrent modifications
+- Configuration:
+  - Partition key: `LockID` (String)
+  - Read capacity: 2 units
+  - Write capacity: 2 units
+
+#### Usage
+
+To use this state backend in other Terraform configurations, add the following backend configuration:
 
 ```hcl
-# Backend configuration example
 terraform {
   backend "s3" {
-    bucket = "terraform-state-bucket"
-    key    = "path/to/state"
-    region = "us-west-2"
+    bucket         = "sangylee-s3-bucket-tfstate"
+    key            = "terraform.tfstate"
+    region         = "your-region"
+    dynamodb_table = "terraform-tfstate-lock"
+    encrypt        = true
   }
 }
 ```
+
+> [!NOTE]
+> - Ensure proper IAM permissions are configured for access to both S3 and DynamoDB
+> - The DynamoDB table uses provisioned capacity mode with minimal read/write units
+> - S3 versioning helps maintain state file history and enables recovery if needed
+
 
 ## Security
 - Information about security groups
@@ -300,10 +289,8 @@ Guidelines for contributing to the infrastructure code:
 - Disaster recovery procedures
 
 ## Support
-Contact information for infrastructure team or maintainers
-
-## License
-Specify the license under which this infrastructure code is released
+Contact information for infrastructure team or maintainers (@falconlee236)
+Or Feel Free to send email to me (`falconlee236@gmail.com`)
 
 ---
 
