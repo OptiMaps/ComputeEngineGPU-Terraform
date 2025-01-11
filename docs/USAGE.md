@@ -119,7 +119,7 @@ this command init s3 and dynamoDB with [terraform backend](https://developer.has
 ### 6. Deploy server
 ```
 sudo chmod +x create_server_with_dynamic_zones.sh
-sh ./create_server_with_dynamic_zones.sh
+bash ./create_server_with_dynamic_zones.sh
 ```
 
 ## how to change option?
