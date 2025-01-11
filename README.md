@@ -31,6 +31,7 @@ If you are running this script, you will get this cloud resource
 ├── LICENSE
 ├── Makefile
 ├── README.md
+├── terraform.prod.tfvars
 ├── .env
 ├── .ssh
 |   ├── id_ed25519
