@@ -110,13 +110,24 @@ Open ./variables.tf, change default value (project, username) to your own enviro
 > [!CAUTION]
 > project name must specify numbers after project name dash (-)
 
-### 5. Initialize Terraform
+### 5. create terraform.prod.tfvars 
+create `terraform.prod.tfvars` in root directory and contents is following
+```hcl
+dockerhub_id = "your docker hub id"
+dockerhub_pwd = "yout docker hub pwd"
+```
+
+> [!IMPORTANT]
+> `terraform.prod.tfvars` is secret file. so you must not upload that files. I already add `terraform.prod.tfvars` files in gitignore
+
+
+### 6. Initialize Terraform
 ```bash
 make init
 ```
 this command init s3 and dynamoDB with [terraform backend](https://developer.hashicorp.com/terraform/language/backend)
 
-### 6. Deploy server
+### 7. Deploy server
 ```
 sudo chmod +x create_server_with_dynamic_zones.sh
 bash ./create_server_with_dynamic_zones.sh
