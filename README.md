@@ -4,7 +4,7 @@
 Create google cloud GPU server with Terraform
 
 ## 📝 Overview
-If you are running this script, you will get this cloud resource
+If you are running this script, you will get this cloud resource just after 10 minutes!
 * AWS S3
 * AWS DynamoDB
 * GCP Virtual Private Cloud
