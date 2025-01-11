@@ -37,6 +37,7 @@ This script streamlines the process of deploying GCP Compute Engine instances eq
 ```
 .
 ├── create_server_with_dynamic_zones.sh  # This script
+├── terraform.prod.tfvars                # Dockerhub credentials
 ├── credentials.json                     # GCP credentials
 ├── Makefile                             # Terraform commands
 ├── README.md                            # Project documentation
