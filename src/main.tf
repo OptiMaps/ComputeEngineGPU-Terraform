@@ -14,21 +14,10 @@ terraform {
         key            = "terraform.tfstate" # tfstate 저장 경로
         region         = "ap-northeast-2"
         dynamodb_table = "terraform-tfstate-lock" # dynamodb table 이름
-        profile = "falconlee236"
+        profile        = "falconlee236"
     }
 }
 
-provider "google" {
-    credentials = file(var.credentials_file)
-    project = var.project
-    region = var.region
-    zone = var.zone
-}
-
-provider "aws" {
-    region = "ap-northeast-2"
-    profile = "falconlee236"
-}
 
 module "vpc_network" {
     source = "./modules/vpc"
