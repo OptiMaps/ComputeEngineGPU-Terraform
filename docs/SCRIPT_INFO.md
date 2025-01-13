@@ -44,6 +44,7 @@ This script streamlines the process of deploying GCP Compute Engine instances eq
 ├── .env                                 # Environment variables
 └── src
     ├── main.tf                          # Terraform main config
+    ├── provider.tf                      # Terraform provider config
     ├── modules                          # Terraform modules
     │   ├── vpc
     │   │   ├── main.tf
