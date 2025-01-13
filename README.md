@@ -38,6 +38,7 @@ If you are running this script, you will get this cloud resource just after 10 m
 |   └── id_ed25519.pub
 └── src
     ├── main.tf
+    ├── provider.tf
     ├── modules
     │   ├── vpc
     │   │   ├── main.tf
