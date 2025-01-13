@@ -120,14 +120,68 @@ dockerhub_pwd = "yout docker hub pwd"
 > [!IMPORTANT]
 > `terraform.prod.tfvars` is secret file. so you must not upload that files. I already add `terraform.prod.tfvars` files in gitignore
 
+### 6. change aws profile
+You must change your aws profile name following downscript
+`./main.tf`
+```bash
+terraform {
+    required_providers {
+        google = {
+            source = "hashicorp/google"
+            version = "4.49.0"
+        }
+        aws = {
+            source  = "hashicorp/aws"
+            version = "~> 4.0"
+        }
+    }
+    backend s3 {
+        bucket         = "sangylee-s3-bucket-tfstate" # S3 버킷 이름
+        key            = "terraform.tfstate" # tfstate 저장 경로
+        region         = "ap-northeast-2"
+        dynamodb_table = "terraform-tfstate-lock" # dynamodb table 이름
+        profile = "(your aws profile name)" <--- change
+    }
+}
+```
+`./provider.tf
+```
+provider "google" {
+    credentials = file(var.credentials_file)
+    project = var.project
+    region = var.region
+    zone = var.zone
+}
 
-### 6. Initialize Terraform
+provider "aws" {
+    region = "ap-northeast-2"
+    profile = "(your aws profile name)" <--- change
+}
+```
+
+`./s3_init/provider.tf
+```bash
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "aws" {
+    region = "ap-northeast-2"
+    profile = "(your aws profile name)" <--- change
+}
+```
+### 7. Initialize Terraform
 ```bash
 make init
 ```
 this command init s3 and dynamoDB with [terraform backend](https://developer.hashicorp.com/terraform/language/backend)
 
-### 7. Deploy server
+### 8. Deploy server
 ```
 sudo chmod +x create_server_with_dynamic_zones.sh
 bash ./create_server_with_dynamic_zones.sh
