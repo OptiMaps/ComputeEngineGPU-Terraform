@@ -4,20 +4,20 @@ terraform {
             source = "hashicorp/google"
             version = "4.49.0"
         }
-        aws = {
-            source  = "hashicorp/aws"
-            version = "~> 4.0"
-        }
+        # aws = {
+        #     source  = "hashicorp/aws"
+        #     version = "~> 4.0"
+        # }
     }
-    backend s3 {
-        bucket         = "sangylee-s3-bucket-tfstate" # S3 버킷 이름
-        key            = "terraform.tfstate" # tfstate 저장 경로
-        region         = "ap-northeast-2"
-        dynamodb_table = "terraform-tfstate-lock" # dynamodb table 이름
-        profile        = "falconlee236"
-    }
+    # backend s3 {
+    #     bucket         = "sangylee-s3-bucket-tfstate" # S3 버킷 이름
+    #     key            = "terraform.tfstate" # tfstate 저장 경로
+    #     region         = "ap-northeast-2"
+    #     dynamodb_table = "terraform-tfstate-lock" # dynamodb table 이름
+    #     profile        = "falconlee236"
+    # }
 }
-
+# terraform init --reconfigure
 
 module "vpc_network" {
     source = "./modules/vpc"

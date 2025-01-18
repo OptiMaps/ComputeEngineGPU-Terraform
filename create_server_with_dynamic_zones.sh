@@ -4,7 +4,7 @@
 zones=()
 while read -r zone; do
   zones+=("$zone")
-done < <(comm -12 <(gcloud compute machine-types list --filter="name=n1-standard-8" | grep asia | awk '{print $2}' | sort | uniq) <(gcloud compute accelerator-types list --filter="name=nvidia-tesla-t4" | grep asia | awk '{print $2}' | sort | uniq))
+done < <(comm -12 <(gcloud compute machine-types list --filter="name=n1-standard-8"  | awk '{print $2}' | sort | uniq) <(gcloud compute accelerator-types list --filter="name=nvidia-tesla-t4" | awk '{print $2}' | sort | uniq))
 
 # 배열 출력 (디버깅용)
 echo "사용 가능한 존 목록:"

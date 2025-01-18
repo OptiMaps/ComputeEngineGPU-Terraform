@@ -5,7 +5,7 @@ provider "google" {
     zone = var.zone
 }
 
-provider "aws" {
-    region = "ap-northeast-2"
-    profile = "falconlee236"
-}
+# provider "aws" {
+#     region = "ap-northeast-2"
+#     profile = "falconlee236"
+# }

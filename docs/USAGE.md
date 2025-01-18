@@ -65,7 +65,10 @@ For detailed installation instructions, please refer to the official AWS CLI doc
 1. install terraform [cli](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 
 ## Getting Started
-### 1. set aws account to aws cli
+### With AWS Backend Case
+> [!IMPORTANT]
+> this section save terraform.tfstate file to aws s3 for collaborating. If you want to create own server locally, scroll down and follow Without Aws backend case.
+#### 1. set aws account to aws cli
 ```bash
 aws configure --profile [your_profile_name]
 > AWS Access Key ID [None]: [your id]
@@ -78,7 +81,7 @@ if Your setting is correct, you will show this screen
 aws_access_key_id = [your id]
 aws_secret_access_key = [your secret key]
 ```
-### 2. set google cloud cli
+#### 2. set google cloud cli
 ```bash
 gcloud auth activate-service-account --key-file=./credentials.json
 ```
@@ -92,7 +95,7 @@ ACTIVE  ACCOUNT
 > [!IMPORTANT]
 > your credentials.json must be root directory and must follow that name.
 
-### 3. set .ssh file
+#### 3. set .ssh file
 In previous setting section, move root directory to create pub key and private key wrapping .ssh directory in chapter 4
 ```bash
 ☁  ComputeEngineGPU-Terraform [main] ll .ssh  
@@ -104,13 +107,13 @@ total 8.0K
 > [!IMPORTANT]
 > your .ssh must be root directory and must follow that name.
 
-### 4. default gcp project setting
+#### 4. default gcp project setting
 Open ./variables.tf, change default value (project, username) to your own enviroment
 
 > [!CAUTION]
 > project name must specify numbers after project name dash (-)
 
-### 5. create terraform.prod.tfvars 
+#### 5. create terraform.prod.tfvars 
 create `terraform.prod.tfvars` in root directory and contents is following
 ```hcl
 dockerhub_id = "your docker hub id"
@@ -120,7 +123,7 @@ dockerhub_pwd = "yout docker hub pwd"
 > [!IMPORTANT]
 > `terraform.prod.tfvars` is secret file. so you must not upload that files. I already add `terraform.prod.tfvars` files in gitignore
 
-### 6. change aws profile
+#### 6. change aws profile
 You must change your aws profile name following downscript
 `./main.tf`
 ```bash
@@ -175,14 +178,107 @@ provider "aws" {
     profile = "(your aws profile name)" <--- change
 }
 ```
-### 7. Initialize Terraform
+#### 7. Initialize Terraform
 ```bash
 make init
 ```
 this command init s3 and dynamoDB with [terraform backend](https://developer.hashicorp.com/terraform/language/backend)
 
-### 8. Deploy server
+#### 8. Deploy server
+```bash
+sudo chmod +x create_server_with_dynamic_zones.sh
+bash ./create_server_with_dynamic_zones.sh
 ```
+
+### Without AWS Backend Case
+#### 1. set google cloud cli
+```bash
+gcloud auth activate-service-account --key-file=./credentials.json
+```
+if Your setting is correct, you will show this screen
+```bash
+☁  ComputeEngineGPU-Terraform [main] gcloud auth list
+                  Credentialed Accounts
+ACTIVE  ACCOUNT
+*       q2o3481298347123-compute@developer.gserviceaccount.com
+```
+> [!IMPORTANT]
+> your credentials.json must be root directory and must follow that name.
+
+#### 2. set .ssh file
+In previous setting section, move root directory to create pub key and private key wrapping .ssh directory in chapter 4
+```bash
+☁  ComputeEngineGPU-Terraform [main] ll .ssh  
+total 8.0K
+-rw------- 1 sangylee sangylee 419 Oct 11 00:18 id_ed25519
+-rw-r--r-- 1 sangylee sangylee 104 Oct 11 00:18 id_ed25519.pub
+```
+
+> [!IMPORTANT]
+> your .ssh must be root directory and must follow that name.
+
+#### 3. default gcp project setting
+Open ./variables.tf, change default value (project, username) to your own enviroment
+
+> [!CAUTION]
+> project name must specify numbers after project name dash (-)
+
+#### 4. create terraform.prod.tfvars 
+create `terraform.prod.tfvars` in root directory and contents is following
+```hcl
+dockerhub_id = "your docker hub id"
+dockerhub_pwd = "yout docker hub pwd"
+```
+
+> [!IMPORTANT]
+> `terraform.prod.tfvars` is secret file. so you must not upload that files. I already add `terraform.prod.tfvars` files in gitignore
+
+#### 5. comment aws configuration in `src/provider.tf`, `src/main.tf`
+Open `src/provider.tf`, take a comment about aws provider
+```hcl
+provider "google" {
+    credentials = file(var.credentials_file)
+    project = var.project
+    region = var.region
+    zone = var.zone
+}
+
+# comment this
+# provider "aws" {
+#     region = "ap-northeast-2"
+#     profile = "falconlee236"
+# }
+```
+
+Open `src/main.tf`, take a comment about aws backend
+```hcl
+terraform {
+    required_providers {
+        google = {
+            source = "hashicorp/google"
+            version = "4.49.0"
+        }
+        # take comment
+        # aws = { 
+        #     source  = "hashicorp/aws"
+        #     version = "~> 4.0"
+        # }
+    }
+    # take comment
+    # backend s3 {
+    #     bucket         = "sangylee-s3-bucket-tfstate" # S3 버킷 이름
+    #     key            = "terraform.tfstate" # tfstate 저장 경로
+    #     region         = "ap-northeast-2"
+    #     dynamodb_table = "terraform-tfstate-lock" # dynamodb table 이름
+    #     profile        = "falconlee236"
+    # }
+}
+```
+> [!IMPORTANT]
+> this section save `terraform.tf.state` file to local computer. So that you have to manage terraform state file.
+
+#### 6. terraform init without aws and Deploy server
+```bash
 sudo chmod +x create_server_with_dynamic_zones.sh
 bash ./create_server_with_dynamic_zones.sh
 ```
