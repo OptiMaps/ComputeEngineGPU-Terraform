@@ -76,6 +76,7 @@ If you are running this script, you will get this cloud resource just after 10 m
 └── src
     ├── main.tf
     ├── provider.tf
+    ├── storage.tf
     ├── modules
     │   ├── vpc
     │   │   ├── main.tf
@@ -205,6 +206,7 @@ module "worker" {
   machine_type       = "n1-standard-4"
   zone              = "us-central1-a"
   gpu_type          = "nvidia-tesla-t4"
+  gpu_count         = 1
   username          = "your-username"
   ssh_file          = "path/to/ssh/public/key"
   ssh_file_private  = "path/to/ssh/private/key"
