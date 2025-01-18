@@ -3,6 +3,9 @@
 
 Create google cloud GPU server with Terraform
 
+## 🏗️ Architecture
+![Group 71](https://github.com/user-attachments/assets/83cd3ae4-7a9a-4ce5-933d-164cc4a45118)
+
 ## 📝 Overview
 If you are running this script, you will get this cloud resource just after 10 minutes!
 * AWS S3
@@ -10,9 +13,43 @@ If you are running this script, you will get this cloud resource just after 10 m
 * GCP Virtual Private Cloud
 * GCP Compute Engine with n1-standard-8 and nvidia-tesla-T4 GPU (this could be changed)
 * GCP Cloud Storage
+### 🖥️ Available Machine Types and GPU Combinations in GCP
 
-## 🏗️ Architecture
-![Group 71](https://github.com/user-attachments/assets/83cd3ae4-7a9a-4ce5-933d-164cc4a45118)
+#### 🚀 N1 Series Machines (Previous Generation)
+| Machine Type | vCPUs | Memory (GB) | Compatible GPUs | Max GPUs |
+|-------------|--------|-------------|-----------------|----------|
+| n1-standard-2 | 2 | 7.5 | nvidia-tesla-t4 | 1 |
+| n1-standard-4 | 4 | 15 | nvidia-tesla-t4, nvidia-tesla-p4 | 1 |
+| n1-standard-8 | 8 | 30 | nvidia-tesla-t4, nvidia-tesla-p4, nvidia-tesla-v100 | 1 |
+| n1-standard-16 | 16 | 60 | nvidia-tesla-t4, nvidia-tesla-p4, nvidia-tesla-v100 | 2 |
+| n1-standard-32 | 32 | 120 | nvidia-tesla-t4, nvidia-tesla-p4, nvidia-tesla-v100 | 4 |
+
+#### 🎯 G2 Series Machines (Latest Generation)
+| Machine Type | vCPUs | Memory (GB) | Compatible GPUs | Max GPUs |
+|-------------|--------|-------------|-----------------|----------|
+| g2-standard-4 | 4 | 16 | nvidia-l4 | 1 |
+| g2-standard-8 | 8 | 32 | nvidia-l4 | 1 |
+| g2-standard-12 | 12 | 48 | nvidia-l4 | 2 |
+| g2-standard-16 | 16 | 64 | nvidia-l4 | 2 |
+| g2-standard-24 | 24 | 96 | nvidia-l4 | 4 |
+| g2-standard-32 | 32 | 128 | nvidia-l4 | 4 |
+| g2-standard-48 | 48 | 192 | nvidia-l4 | 6 |
+| g2-standard-96 | 96 | 384 | nvidia-l4 | 8 |
+
+### 🎮 GPU Specifications
+| GPU Type | Memory | Best For | Relative Cost |
+|----------|---------|----------|---------------|
+| nvidia-tesla-t4 | 16 GB | ML inference, small-scale training | $ |
+| nvidia-tesla-p4 | 8 GB | ML inference | $ |
+| nvidia-tesla-v100 | 32 GB | Large-scale ML training | $$$ |
+| nvidia-l4 | 24 GB | Latest gen for ML/AI workloads | $$ |
+
+#### ⚠️ Note: 
+- GPU availability varies by region and zone
+- G2 machines are optimized for the latest NVIDIA L4 GPUs
+- N1 machines are more flexible with GPU options but are previous generation
+- Pricing varies significantly based on configuration and region
+- More information -> [here](https://cloud.google.com/compute/docs/gpus?hl=en)
 
 ## ⚙️ Prerequisites
 ```
