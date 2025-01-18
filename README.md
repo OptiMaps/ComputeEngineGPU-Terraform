@@ -76,6 +76,7 @@ If you are running this script, you will get this cloud resource just after 10 m
 └── src
     ├── main.tf
     ├── provider.tf
+    ├── storage.tf
     ├── modules
     │   ├── vpc
     │   │   ├── main.tf
