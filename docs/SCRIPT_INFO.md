@@ -45,6 +45,7 @@ This script streamlines the process of deploying GCP Compute Engine instances eq
 └── src
     ├── main.tf                          # Terraform main config
     ├── provider.tf                      # Terraform provider config
+    ├── storage.tf                       # Google cloud storage config
     ├── modules                          # Terraform modules
     │   ├── vpc
     │   │   ├── main.tf
@@ -76,16 +77,23 @@ This script streamlines the process of deploying GCP Compute Engine instances eq
 ## 🔧 Customization
 
 - **Change GPU Type:**
-  Modify the GPU filter in the script:
+  Modify the `TF_VAR_machine_type` env in the script:
   ```bash
-  --filter="name=nvidia-tesla-t4"
+  export TF_VAR_machine_type="n1-standard-8"
   ```
   Replace with your desired GPU type (e.g., `nvidia-tesla-v100`).
 
-- **Change CPU Type:**
-  Modify the machine type filter:
+- **Change GPU count:**
+  Modify the `TF_VAR_gpu_count` env in the script:
   ```bash
-  --filter="name=n1-standard-8"
+  export TF_VAR_gpu_count=1
+  ```
+  Replace with the desired GPU count (e.g., `2`).
+
+- **Change CPU Type:**
+  Modify the `TF_VAR_gpu_type` env in the script:
+  ```bash
+  export TF_VAR_gpu_type="nvidia-tesla-t4"
   ```
   Replace with the desired machine type (e.g., `n2-standard-16`).
 
