@@ -21,7 +21,7 @@ resource "google_compute_instance" "gpu_instance" {
     // add a single nvidia T4 GPU
     guest_accelerator {
         type = var.gpu_type
-        count = 1
+        count = var.gpu_count
     }
 
     metadata = {

@@ -64,6 +64,12 @@ variable "gpu_type" {
     default = "nvidia-tesla-t4"
 }
 
+variable "gpu_count" {
+    description = "gpu count"
+    type = number
+    default = 1
+}
+
 variable "username" {
     description = "my google email id"
     type = string

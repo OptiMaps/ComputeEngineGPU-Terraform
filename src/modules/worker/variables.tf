@@ -10,6 +10,8 @@ variable "machine_type" {}
 
 variable "gpu_type" {}
 
+variable "gpu_count" {}
+
 variable "zone" {}
 
 variable "username" {}

@@ -1,10 +1,16 @@
 #!/bin/bash
+# export TF_VAR_machine_type="g2-standard-4"
+# export TF_VAR_gpu_type="nvidia-l4"
+# export TF_VAR_gpu_count=1
+export TF_VAR_machine_type="n1-standard-8"
+export TF_VAR_gpu_type="nvidia-tesla-t4"
+export TF_VAR_gpu_count=1
 
 # comm 명령어의 결과를 배열에 저장
 zones=()
 while read -r zone; do
   zones+=("$zone")
-done < <(comm -12 <(gcloud compute machine-types list --filter="name=n1-standard-8"  | awk '{print $2}' | sort | uniq) <(gcloud compute accelerator-types list --filter="name=nvidia-tesla-t4" | awk '{print $2}' | sort | uniq))
+done < <(comm -12 <(gcloud compute machine-types list --filter="name=$TF_VAR_machine_type"  | awk '{print $2}' | sort | uniq) <(gcloud compute accelerator-types list --filter="name=$TF_VAR_gpu_type" | awk '{print $2}' | sort | uniq))
 
 # 배열 출력 (디버깅용)
 echo "사용 가능한 존 목록:"

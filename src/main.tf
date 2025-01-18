@@ -24,15 +24,6 @@ module "vpc_network" {
     region = var.region
 }
 
-resource "google_storage_bucket" "artifact_bucket" {
-    # bucket name must be globally unique with all users
-    name = "rl-artifact-bucket"
-    location = var.region
-    force_destroy = true
-
-    uniform_bucket_level_access = true
-}
-
 module "training_worker" {
     source = "./modules/worker"
 
@@ -42,6 +33,7 @@ module "training_worker" {
     git_clone_dir = var.git_clone_dir
     machine_type = var.machine_type
     gpu_type = var.gpu_type
+    gpu_count = var.gpu_count
     zone = var.zone
     username = var.username
     env_file = var.env_file
