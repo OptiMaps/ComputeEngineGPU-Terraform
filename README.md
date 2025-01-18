@@ -205,6 +205,7 @@ module "worker" {
   machine_type       = "n1-standard-4"
   zone              = "us-central1-a"
   gpu_type          = "nvidia-tesla-t4"
+  gpu_count         = 1
   username          = "your-username"
   ssh_file          = "path/to/ssh/public/key"
   ssh_file_private  = "path/to/ssh/private/key"
