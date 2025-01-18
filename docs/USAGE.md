@@ -289,9 +289,11 @@ If you want to change the following configurations, please refer to the informat
 * [GPU Type](https://cloud.google.com/compute/docs/gpus?hl=en)
 * [CPU Type](https://cloud.google.com/compute/docs/general-purpose-machines?hl=en)
 in `create_server_with_dynamic_zones.sh`
-change this line's filter name, you can change option
+change outside of for statement in bash shell script. So you can change following option
 ```bash
-done < <(comm -12 <(gcloud compute machine-types list --filter="name=[your machine type]" | grep asia | awk '{print $2}' | sort | uniq) <(gcloud compute accelerator-types list --filter="name=[your gpu type]" | grep asia | awk '{print $2}' | sort | uniq))
+export TF_VAR_machine_type="n1-standard-8"
+export TF_VAR_gpu_type="nvidia-tesla-t4"
+export TF_VAR_gpu_count=2
 ```
 For more information, please visit [Dynamic GPU Provisioning Script for Terraform](SCRIPT_INFO.md).
 
