@@ -16,6 +16,7 @@
 | zone | GCP zone name | string | "asia-east1-c" | yes |
 | machine_type | GCP machine type | string | "n1-standard-8" | yes |
 | gpu_type | GPU type | string | "nvidia-tesla-t4" | yes |
+| gpu_count | GPU count | number | 1 | yes |
 | username | Google email ID | string | "sangyleegcp1" | yes |
 | dockerhub_id | Docker Hub username | string | n/a | yes |
 | dockerhub_pwd | Docker Hub password | string | n/a | yes |
