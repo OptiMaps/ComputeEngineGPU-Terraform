@@ -29,8 +29,6 @@ module "training_worker" {
 
     ssh_file = var.ssh_file
     ssh_file_private = var.ssh_file_private
-    git_ssh_url = var.git_ssh_url
-    git_clone_dir = var.git_clone_dir
     machine_type = var.machine_type
     gpu_type = var.gpu_type
     gpu_count = var.gpu_count
@@ -39,6 +37,9 @@ module "training_worker" {
     env_file = var.env_file
     dockerhub_id = var.dockerhub_id
     dockerhub_pwd = var.dockerhub_pwd
+
+    # output 처리
+    artifact_bucket = google_storage_bucket.artifact_bucket.name
 
     depends_on = [ module.vpc_network, google_storage_bucket.artifact_bucket ]
 }

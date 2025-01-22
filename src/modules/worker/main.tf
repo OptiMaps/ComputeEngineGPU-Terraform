@@ -85,14 +85,12 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo apt update && sudo apt upgrade -y",
             "mkdir /home/${var.username}/gcs-bucket", // create mount path for our bucket
             "sudo chown ${var.username}: /home/${var.username}/gcs-bucket",
-            "sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 rl-artifact-bucket /home/${var.username}/gcs-bucket", // mount our bucket
+            "sudo gcsfuse -o allow_other -file-mode=777 -dir-mode=777 ${var.artifact_bucket} /home/${var.username}/gcs-bucket", // mount our bucket
             "sudo /opt/deeplearning/install-driver.sh", // install required GPU drivers
             "sudo apt install -y git",
             "chmod 400 /home/${var.username}/.ssh/id_ed25519", // allow git to use our ssh key
             "echo 'Host github.com' >> ~/.ssh/config",
             "echo '    StrictHostKeyChecking no' >> ~/.ssh/config",
-            "git clone ${var.git_ssh_url}", // clone our application repository
-            "cd ~/${var.git_clone_dir}",
             "sudo apt remove docker docker-engine docker.io containerd runc", ## - Old Version Remove
             "sudo apt update && sudo apt upgrade -y", # set up
             "sudo apt install -y apt-transport-https ca-certificates curl software-properties-common",
@@ -103,8 +101,6 @@ resource "google_compute_instance" "gpu_instance" {
             "sudo systemctl start docker",
             "sudo systemctl enable docker",
             "echo ${var.dockerhub_pwd} | docker login -u ${var.dockerhub_id} --password-stdin", # dockerhub login
-            "docker pull falconlee236/rl-image:parco-cuda123", # pull train docker image,
-            "git clone https://github.com/OptiMaps/TrainRepo", # 새로 추가한 부분, 문제 있으면 이거 지우기
          ]
          connection {
             type = "ssh"

@@ -16,18 +16,6 @@ variable "env_file" {
     default = "../.env"
 }
 
-variable "git_ssh_url" {
-    description = "git clone url"
-    type = string
-    default = "https://github.com/OptiMaps/TrainRepo"
-}
-
-variable "git_clone_dir" {
-    description = "directory path"
-    type = string
-    default = "TrainRepo"
-}
-
 variable "credentials_file" {
     description = "credentials file"
     type = string

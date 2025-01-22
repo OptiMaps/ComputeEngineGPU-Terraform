@@ -22,6 +22,9 @@ done
 for zone in "${zones[@]}"; do
   # 존(zone)에서 맨 뒤 두 글자를 제거하여 지역(region) 생성
   region=${zone::-2}
+  if [[ -z "$zone" || "$zone" == "ZONE" ]]; then
+    continue
+  fi
   
   echo "존(zone): $zone, 지역(region): $region 에서 make 명령어를 실행합니다..."
   
@@ -34,8 +37,8 @@ for zone in "${zones[@]}"; do
   
   # make 명령어의 종료 상태 확인
   if [ $? -ne 0 ]; then
-    echo "존 $zone 에서 make 명령어가 실패했습니다. 10초 후에 make clean을 실행합니다..."
-    sleep 30
+    echo "존 $zone 에서 make 명령어가 실패했습니다. 100초 후에 make clean을 실행합니다..."
+    sleep 100
     make clean
   else
     echo "존 $zone 에서 make 명령어가 성공적으로 완료되었습니다."

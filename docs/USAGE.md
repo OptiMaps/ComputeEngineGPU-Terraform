@@ -8,8 +8,6 @@
 | ssh_file | SSH public key path | string | "../.ssh/id_ed25519.pub" | yes |
 | ssh_file_private | SSH private key path | string | "../.ssh/id_ed25519" | yes |
 | env_file | Environment file path | string | "../.env" | yes |
-| git_ssh_url | Git clone URL | string | "https://github.com/OptiMaps/TrainRepo" | yes |
-| git_clone_dir | Directory path for cloned repository | string | "TrainRepo" | yes |
 | credentials_file | GCP credentials file path | string | "../credentials.json" | yes |
 | project | GCP project name | string | "optimap-438115" | yes |
 | region | GCP region name | string | "asia-east1" | yes |
@@ -95,6 +93,11 @@ ACTIVE  ACCOUNT
 ```
 > [!IMPORTANT]
 > your credentials.json must be root directory and must follow that name.
+
+set project to glcoud cli
+```bash
+glcoud config set project ${project-name}
+```
 
 #### 3. set .ssh file
 In previous setting section, move root directory to create pub key and private key wrapping .ssh directory in chapter 4
@@ -223,6 +226,11 @@ Open ./variables.tf, change default value (project, username) to your own enviro
 
 > [!CAUTION]
 > project name must specify numbers after project name dash (-)
+
+set project to glcoud cli
+```bash
+glcoud config set project ${project-name}
+```
 
 #### 4. create terraform.prod.tfvars 
 create `terraform.prod.tfvars` in root directory and contents is following

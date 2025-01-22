@@ -58,6 +58,7 @@ If you are running this script, you will get this cloud resource just after 10 m
 - GCP CLI configured
 - Github SSH key
 - Dockerhub configured
+- Bash >= 4.2
 ```
 
 ## 📂 Repository Structure
@@ -77,6 +78,7 @@ If you are running this script, you will get this cloud resource just after 10 m
     ├── main.tf
     ├── provider.tf
     ├── storage.tf
+    ├── output.tf
     ├── modules
     │   ├── vpc
     │   │   ├── main.tf

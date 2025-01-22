@@ -46,6 +46,7 @@ This script streamlines the process of deploying GCP Compute Engine instances eq
     ├── main.tf                          # Terraform main config
     ├── provider.tf                      # Terraform provider config
     ├── storage.tf                       # Google cloud storage config
+    ├── output.tf                       # Google cloud storage config output
     ├── modules                          # Terraform modules
     │   ├── vpc
     │   │   ├── main.tf
