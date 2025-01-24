@@ -14,3 +14,11 @@ output "host_name" {
 output "project_name" {
     value = var.project
 }
+
+output "user_name" {
+    value = var.username
+}
+
+output "sample_proxy_command" {
+    value = "gcloud compute ssh --zone ${var.zone} --project ${var.project} %h --ssh-flag='-W %h:%p'"
+}
